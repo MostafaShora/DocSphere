@@ -18,5 +18,5 @@ import { Footer } from './shared/components/footer/footer';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('medical-project3');
+  protected readonly title = signal('docsphere');
 }

@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "medical-project3": {
+    "docsphere": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -44,8 +44,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "8kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"
@@ -62,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "medical-project3:build:production"
+              "buildTarget": "docsphere:build:production"
             },
             "development": {
-              "buildTarget": "medical-project3:build:development"
+              "buildTarget": "docsphere:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -119,7 +119,7 @@ export class AuthService {
   async resetPassword(token: string, newPassword: string) {
     return await firstValueFrom(
       this.http.post(`${this.baseUrl}/auth/reset-password/${token}`, {
-        newPassword
+        password: newPassword
       })
     );
   }

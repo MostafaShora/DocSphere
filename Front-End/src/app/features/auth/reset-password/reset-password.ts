@@ -61,7 +61,7 @@ export class ResetPasswordComponent {
       { validators: resetPasswordMatchValidator }
     );
 
-    this.token = this.route.snapshot.queryParamMap.get('token') || '';
+    this.token = this.route.snapshot.paramMap.get('token') || '';
   }
 
   async resetPassword() {
@@ -89,7 +89,7 @@ export class ResetPasswordComponent {
       this.successMsg = 'Password updated successfully.';
 
       setTimeout(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }, 1500);
     } catch (error: any) {
       this.errorMsg = error?.error?.message || 'Error resetting password.';

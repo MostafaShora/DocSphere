@@ -59,7 +59,7 @@ export class VerifyEmailComponent {
       this.successMsg = 'Email verified successfully.';
 
       setTimeout(() => {
-        this.router.navigate(['/login'], {
+        this.router.navigate(['/auth/login'], {
           queryParams: { verified: 'success' }
         });
       }, 1500);

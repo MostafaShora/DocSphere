@@ -84,7 +84,7 @@ export class ServicesComponent implements OnInit {
     const rawUser = localStorage.getItem('currentUser');
 
     if (!rawUser) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
       return;
     }
 

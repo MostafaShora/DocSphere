@@ -189,3 +189,37 @@ section {
   padding: 8px 15px;
   cursor: pointer;
 }
+
+.feature-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.feature-card {
+  min-height: 220px;
+}
+
+.contact-card p {
+  margin: 10px 0;
+  color: #333;
+}
+
+.contact-number {
+  margin: 18px 0 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--teal);
+}
+
+.info-note {
+  background: var(--light-pink);
+  color: var(--teal);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.info-note.error {
+  background: #ffe8e3;
+  color: #b63a20;
+}
