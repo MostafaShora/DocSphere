@@ -1,99 +1,25 @@
 {
   "NAV": {
     "HOME": "Home",
-    "SERVICES": "Services",
     "DOCTORS": "Doctors",
+    "SERVICES": "Services",
+    "ABOUT": "About Us",
     "CONTACT": "Contact",
-    "ABOUT": "About",
     "LOGIN": "Login",
-    "BOOK_NOW": "Book Now"
-  },
-  "ACTIONS": {
-    "SWITCH_TO_DARK": "Switch to dark mode",
-    "SWITCH_TO_LIGHT": "Switch to light mode",
-    "SWITCH_LANGUAGE": "Switch language"
-  },
-  "COMMON": {
-    "CURRENCY": "EGP",
-    "DOCTOR_PREFIX": "Dr.",
-    "DOCTOR_IMAGE_ALT": "Doctor",
-    "STAR": "★",
-    "LOADING": "Loading...",
-    "NETWORK_ERROR": "Unable to reach the server. Please check your internet connection and try again.",
-    "UNKNOWN": "Unknown"
-  },
-  "HOME": {
-    "HERO": {
-      "TITLE": "Best Medical Center",
-      "DESCRIPTION": "We provide comprehensive medical services delivered by top specialized doctors with comfort and safety to you.",
-      "CTA": "Book Your Appointment",
-      "STAT_DOCTORS": "Specialist Doctors",
-      "STAT_PATIENTS": "Happy Patients",
-      "STAT_VISITS": "Home Visits"
-    },
-    "STEPS": {
-      "TITLE": "How It Works?",
-      "BOOK_TITLE": "Book Your Appointment",
-      "BOOK_DESC": "Choose your convenient time",
-      "SELECT_TITLE": "Select Your Doctor",
-      "SELECT_DESC": "From the best specialists",
-      "REPORT_TITLE": "Receive Your Report",
-      "REPORT_DESC": "Comprehensive medical report"
-    },
-    "SERVICES": {
-      "TITLE": "Our Premium Services"
-    },
-    "DOCTORS": {
-      "TITLE": "Our Distinguished Doctors"
-    },
-    "STATS": {
-      "TITLE": "Our Achievements in Numbers",
-      "SPECIALTIES": "Medical Specialties"
-    },
-    "REVIEWS": {
-      "TITLE": "Client Reviews",
-      "REVIEW_1_TEXT": "\"Excellent service. The doctor was professional and arrived on time.\"",
-      "REVIEW_1_AUTHOR": "Ahmed Mohamed",
-      "REVIEW_2_TEXT": "\"Great consultation and accurate diagnosis.\"",
-      "REVIEW_2_AUTHOR": "Mona Elsayed",
-      "REVIEW_3_TEXT": "\"Very professional team, fast and clean service.\"",
-      "REVIEW_3_AUTHOR": "Khaled Ahmed"
-    }
-  },
-  "DOCTORS": {
-    "TITLE": "Find Your Doctor",
-    "SUBTITLE": "Professional doctors in all specialties",
-    "SEARCH_PLACEHOLDER": "Search by name",
-    "ALL_SPECIALTIES": "All Specialties",
-    "AVAILABLE": "Available Doctors",
-    "VIEW_PROFILE": "View Profile"
-  },
-  "SERVICES": {
-    "TITLE": "Our Medical Services",
-    "SUBTITLE": "We provide a complete range of specialized medical services.",
-    "SEARCH_PLACEHOLDER": "Search for a service...",
-    "ALL_SPECIALTIES": "All Specialties",
-    "DURATION": "Duration:",
-    "BOOK_NOW": "Book Now",
-    "NO_RESULTS": "No services match your search.",
-    "LOGIN_REQUIRED": "Please login to book an appointment."
-  },
-  "SPECIALTIES": {
-    "DENTISTRY": "Dentistry",
-    "OPHTHALMOLOGY": "Ophthalmology",
-    "INTERNAL_MEDICINE": "Internal Medicine",
-    "PEDIATRICS": "Pediatrics",
-    "DERMATOLOGY": "Dermatology",
-    "CARDIOLOGY": "Cardiology"
+    "SIGNUP": "Sign Up",
+    "DASHBOARD": "Dashboard",
+    "PROFILE": "Profile",
+    "LOGOUT": "Logout",
+    "LIGHT_MODE": "Switch to Light Mode",
+    "DARK_MODE": "Switch to Dark Mode"
   },
   "AUTH": {
     "COMMON": {
       "EMAIL": "Email",
-      "EMAIL_PLACEHOLDER": "Enter your email",
       "PASSWORD": "Password",
-      "PASSWORD_PLACEHOLDER": "Enter your password",
-      "USERNAME": "Username",
-      "USERNAME_PLACEHOLDER": "Enter your username"
+      "NAME": "Full Name",
+      "NAME_AR": "Name (Arabic)",
+      "NAME_EN": "Name (English)"
     },
     "VALIDATION": {
       "EMAIL_REQUIRED": "Email is required",
@@ -104,9 +30,10 @@
     "LOGIN": {
       "TITLE": "Welcome Back",
       "SUBMIT": "Login",
+      "NO_ACCOUNT": "Don't have an account?",
       "ERRORS": {
         "INVALID_FORM": "Please fill in all required fields correctly.",
-        "INVALID_CREDENTIALS": "Invalid username or password",
+        "INVALID_CREDENTIALS": "Invalid email or password",
         "FAILED": "Login failed. Please try again."
       }
     },
@@ -114,89 +41,237 @@
       "TITLE": "Create Account",
       "SUBMIT": "Register",
       "HAVE_ACCOUNT": "Already have an account?",
-      "SUCCESS": "Account created successfully",
-      "ERROR": "Registration failed"
+      "NO_ACCOUNT": "Don't have an account?",
+      "ROLE": "User Type",
+      "PATIENT": "Patient",
+      "DOCTOR": "Doctor",
+      "BIRTH_DATE": "Date of Birth",
+      "DOCTOR_PROFILE": "Doctor Profile",
+      "SPECIALTY": "Specialty",
+      "CHOOSE_SPECIALTY": "Choose a specialty",
+      "FEE": "Consultation Fee",
+      "EXPERIENCE": "Years of Experience",
+      "BIO": "Bio",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "ERR_MISMATCH": "Passwords do not match",
+      "ERR_FIELDS": "Please fix the highlighted fields.",
+      "SUCCESS": "Account created successfully. Please verify your email.",
+      "ERR_FAILED": "Registration failed",
+      "PROFILE_PICTURE": "Profile Picture"
     },
     "FORGOT": {
       "TITLE": "Forgot Password",
-      "DESCRIPTION": "Enter your email and we will send you a password reset link.",
+      "DESC": "Enter your email to receive reset instructions.",
+      "EMAIL_PLACEHOLDER": "Enter your email",
       "SUBMIT": "Send Reset Link",
-      "LOADING": "Sending...",
-      "REMEMBERED": "Remembered your password?",
-      "SUCCESS": "Password reset link has been sent to your email",
-      "ERRORS": {
-        "INVALID_EMAIL": "Please enter a valid email address.",
-        "FAILED": "Unable to send reset link. Please try again."
-      }
+      "REMEMBERED": "Remembered your password?"
+    },
+    "RESET": {
+      "TITLE": "Reset Password",
+      "DESC": "Enter your new password below.",
+      "NEW_PASSWORD": "New Password",
+      "NEW_PASSWORD_PLACEHOLDER": "Enter new password (min 6 chars)",
+      "SUBMIT": "Reset Password",
+      "BACK_TO_LOGIN": "Back to Login"
     },
     "VERIFY": {
       "TITLE": "Verify Email",
-      "DESCRIPTION": "Enter the verification code sent to your email address.",
+      "DESC": "Enter the verification code sent to your email.",
       "CODE": "Verification Code",
-      "CODE_PLACEHOLDER": "Enter verification code",
+      "CODE_PLACEHOLDER": "Enter your code",
+      "ERR_REQUIRED": "Code is required",
       "SUBMIT": "Verify Email",
-      "LOADING": "Verifying...",
-      "BACK_TO": "Back to",
-      "SUCCESS": "Email verified successfully",
-      "ERRORS": {
-        "INVALID_CODE": "Please enter a valid verification code.",
-        "FAILED": "Unable to verify email. Please try again.",
-        "CODE_REQUIRED": "Verification code is required",
-        "CODE_SHORT": "Verification code is too short"
-      }
+      "BACK_TO": "Back to"
     }
   },
   "DASHBOARD": {
+    "DOCTOR": {
+      "NAV_HOME": "Overview",
+      "NAV_APPOINTMENTS": "Appointments",
+      "NAV_SCHEDULE": "Schedule",
+      "WELCOME": "Welcome, {{name}}",
+      "APPROVED_DESC": "Your dashboard is active and ready.",
+      "PENDING": "Pending Approval",
+      "PENDING_DESC": "Your account is waiting for admin approval.",
+      "DEACTIVATED": "Deactivated",
+      "DEACTIVATED_DESC": "Your account has been deactivated by admin.",
+      "CONFIRMED": "Approved",
+      "ACCEPT": "Accept",
+      "REJECT": "Reject",
+      "REJECT_REASON": "Please provide a reason for rejecting this appointment:",
+      "REJECT_PLACEHOLDER": "Enter reason for rejection or rescheduling...",
+      "RESCHEDULE_OPTION": "Suggest an alternative time?",
+      "SUGGEST_REJECT": "Suggest & Reject Original",
+      "REJECT_FINAL": "Reject Final",
+      "MANAGE_SCHEDULE": "Manage Schedule",
+      "TOTAL": "Total Appointments",
+      "DATE": "Date",
+      "START_TIME": "Start Time",
+      "END_TIME": "End Time",
+      "UPDATE_PICTURE": "Update Profile Picture",
+      "PROFILE_TITLE": "Doctor Profile",
+      "NAME": "Name",
+      "SPECIALTY": "Specialty",
+      "EMAIL": "Email",
+      "FEE": "Consultation Fee",
+      "BIO": "Bio",
+      "NO_BIO": "No bio provided yet.",
+      "NO_PROFILE": "Doctor profile is not available yet.",
+      "START": "Start",
+      "END": "End",
+      "REMOVE": "Remove",
+      "ADD_SLOT": "Add Time Slot",
+      "SAVE_SCHEDULE": "Save Schedule",
+      "NO_SCHEDULE": "No schedule added yet.",
+      "DELETE": "Delete",
+      "CHANGE_PASSWORD": "Change Password",
+      "CURRENT_PASSWORD": "Current Password",
+      "NEW_PASSWORD": "New Password",
+      "CONFIRM_NEW_PASSWORD": "Confirm New Password"
+    },
+    "ADMIN": {
+      "TITLE": "Admin Dashboard",
+      "DESC": "Manage approvals, users, doctors, patients, and appointments.",
+      "APPROVED_DOCTORS": "Approved Doctors",
+      "PENDING_APPROVALS": "Pending Approvals",
+      "TAB_PENDING": "Pending Doctors"
+    },
     "PATIENT": {
-      "INFO": "Info",
-      "NAME": "Name:",
-      "EMAIL": "Email:",
+      "INFO": "Patient Information",
       "MY_APPOINTMENTS": "My Appointments",
       "DOCTOR": "Doctor",
       "DAY": "Day",
       "TIME": "Time",
       "STATUS": "Status",
-      "CANCEL": "Cancel",
-      "CANCEL_ACTION": "X",
-      "EMPTY": "You have no appointments yet."
-    },
-    "DOCTOR": {
-      "NAV_HOME": "Home",
-      "NAV_APPOINTMENTS": "Appointments",
-      "NAV_PATIENTS": "Patients",
-      "NAV_BILLING": "Billing",
-      "LOGOUT": "Logout",
-      "WELCOME": "Welcome, {{name}}",
-      "NEW_REQUESTS": "You have {{count}} new requests",
-      "TOTAL_DOCTORS": "Total Doctors",
-      "PENDING": "Pending",
-      "CONFIRMED": "Confirmed",
-      "APPOINTMENTS": "Appointments",
-      "MY_APPOINTMENTS": "My Appointments",
-      "ACCEPT": "Accept",
-      "REJECT": "Reject"
-    },
-    "ADMIN": {
-      "TITLE": "Admin Dashboard",
-      "DOCTORS": "Doctors",
-      "SERVICES": "Services",
-      "APPOINTMENTS": "Appointments",
-      "PENDING": "Pending"
+      "CANCEL": "Cancel Appointment",
+      "CASH": "Cash",
+      "PENDING_REVIEWS": "Pending Reviews",
+      "PENDING_REVIEWS_DESC": "You have {{count}} visits waiting for your feedback.",
+      "FEEDBACK_TITLE": "Patient Feedback",
+      "FEEDBACK_SUBTITLE": "Your feedback helps us improve our medical services",
+      "NO_PENDING_REVIEWS": "All caught up! You've reviewed all your recent visits.",
+      "DOCTOR_PREFIX": "Dr.",
+      "STARS": "Stars",
+      "REVIEW_PLACEHOLDER": "How was your experience with Dr. {{name}}?",
+      "SUBMIT_REVIEW": "Submit Review",
+      "SECURE_PAYMENT": "Secure Payment",
+      "PAY_NOW": "Pay Now",
+      "OPINION_MATTERS": "Your Opinion Matters!",
+      "REVIEW_PROMPT": "How was your consultation with Dr. {{name}} for {{service}}?",
+      "REVIEW_PROMPT_PLACEHOLDER": "Help other patients by sharing your experience...",
+      "MAYBE_LATER": "Maybe Later",
+      "SEND_REVIEW": "Send Review"
     }
   },
-  "STATUS": {
-    "PENDING": "Pending",
-    "CONFIRMED": "Confirmed",
-    "REJECTED": "Rejected",
-    "CANCELLED": "Cancelled"
+  "SPECIALTIES": {
+    "DENTISTRY": "Dentistry",
+    "CARDIOLOGY": "Cardiology",
+    "DERMATOLOGY": "Dermatology",
+    "PEDIATRICS": "Pediatrics",
+    "ORTHOPEDICS": "Orthopedics",
+    "NEUROLOGY": "Neurology",
+    "OPHTHALMOLOGY": "Ophthalmology",
+    "GENERAL": "General"
+  },
+  "HOME": {
+    "HERO_TITLE": "Best Medical Center",
+    "HERO_DESC": "We provide comprehensive medical services delivered by top specialized doctors with comfort and safety to you.",
+    "HERO_BTN": "Book Your Appointment",
+    "STAT_DOCTORS": "Specialist Doctors",
+    "STAT_PATIENTS": "Happy Patients",
+    "STAT_VISITS": "Home Visits",
+    "HOW_TITLE": "How It Works?",
+    "STEP1_TITLE": "Book Your Appointment",
+    "STEP1_DESC": "Choose your convenient time",
+    "STEP2_TITLE": "Select Your Doctor",
+    "STEP2_DESC": "From the best specialists",
+    "STEP3_TITLE": "Receive Your Report",
+    "STEP3_DESC": "Comprehensive medical report",
+    "SERVICES_TITLE": "Our Premium Services",
+    "DOCTORS_TITLE": "Our Distinguished Doctors",
+    "STATS_TITLE": "Our Achievements in Numbers",
+    "STAT_SPECIALTIES": "Medical Specialties",
+    "REVIEWS_TITLE": "Client Reviews",
+    "LOADING_REVIEWS": "Loading reviews...",
+    "REVIEW_FOR": "Review for Dr.",
+    "ANONYMOUS": "Anonymous"
+  },
+  "SERVICES": {
+    "TITLE": "Our Medical Services",
+    "SUBTITLE": "Explore our full range of medical services tailored for your needs.",
+    "SEARCH": "Search for a service...",
+    "ALL_SPECIALTIES": "All Specialties",
+    "DURATION": "Duration:",
+    "BOOK_NOW": "Book Now",
+    "LOADING": "Loading services...",
+    "NO_RESULTS": "No services found matching your search.",
+    "EGP": "EGP",
+    "DOCTOR_CONSULTATION": "Doctor Consultation",
+    "HYTHAM_CONSULTATION": "Hytham Consultation",
+    "STETHOSCOPE_SERVICE": "Stethoscope Service"
+  },
+  "DOCTORS_PAGE": {
+    "TITLE": "Find Your Doctor",
+    "SUBTITLE": "Professional doctors in all specialties",
+    "SEARCH": "Search by name",
+    "ALL_SPECIALTIES": "All Specialties",
+    "AVAILABLE": "Available Doctors",
+    "VIEW_PROFILE": "View Profile"
+  },
+  "CONTACT": {
+    "INFO_TITLE": "Contact Info",
+    "INFO_DESC": "We are here to help. Contact us anytime.",
+    "FORM_TITLE": "Send a Message",
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "MESSAGE": "Message",
+    "SEND": "Send Message",
+    "ERR_NAME": "Enter a valid name (3-50 chars)",
+    "ERR_EMAIL": "Enter a valid email",
+    "ERR_PHONE": "Enter a valid phone (10-15 digits)",
+    "ERR_MSG": "Message must be at least 10 characters"
+  },
+  "ABOUT": {
+    "HEADER_TITLE": "Digital Medical Center",
+    "HEADER_DESC": "First Smart Health System in the region | Since 2010",
+    "WHO_WE_ARE": "Who We Are",
+    "MISSION_TITLE": "Our Mission",
+    "MISSION_DESC": "Creating a smart care environment that respects human dignity",
+    "VALUES_TITLE": "Our Values",
+    "VALUES_DESC": "Working with integrity, innovating with passion, and caring with our hearts",
+    "VISION_TITLE": "Our Vision",
+    "VISION_DESC": "Leading the digital transformation of healthcare in the region",
+    "OUR_DOCTORS": "Our Doctors",
+    "ADMIN_TEAM": "Admin Team",
+    "ADMIN_ROLE": "Manager",
+    "LOADING": "Loading team data..."
   },
   "FOOTER": {
-    "BRAND_TEXT": "We provide the best home medical services with high quality and professionalism.",
+    "DESC": "We provide the best home medical services with high quality and professionalism.",
     "QUICK_LINKS": "Quick Links",
     "CONTACT_US": "Contact Us",
     "WORKING_HOURS": "Working Hours",
     "DAYS": "Saturday - Friday",
-    "HOURS": "24/7 Available",
+    "AVAILABLE": "24/7 Available",
+    "LOCATION": "Cairo, Egypt",
     "COPYRIGHT": "© 2026 DocSphere | All Rights Reserved"
+  },
+  "ERRORS": {
+    "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection and try again.",
+    "BAD_REQUEST": "The request could not be processed. Please review your input.",
+    "UNAUTHORIZED": "Your session is invalid or has expired. Please sign in again.",
+    "FORBIDDEN": "You do not have permission to perform this action.",
+    "NOT_FOUND": "The requested resource was not found.",
+    "SERVER_ERROR": "Something went wrong on the server. Please try again in a moment.",
+    "DEFAULT": "Something went wrong. Please try again.",
+    "UNEXPECTED": "An unexpected error occurred. Please try again."
+  },
+  "COMMON": {
+    "LOADING": "Loading...",
+    "CANCEL": "Cancel",
+    "TOTAL": "Total",
+    "VIEW_ALL": "View All",
+    "REASON": "Reason"
   }
 }

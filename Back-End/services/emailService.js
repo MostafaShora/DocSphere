@@ -49,3 +49,61 @@ exports.sendResetPasswordEmail = async (to, name, resetUrl) => {
     html
   });
 };
+
+exports.sendAppointmentStatusEmail = async (
+  to,
+  patientName,
+  doctorName,
+  appointmentDate,
+  appointmentTime,
+  status,
+  rejectionReason = null
+) => {
+  let subject = '';
+  let html = '';
+
+  const formattedDate = new Date(appointmentDate).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  if (status === 'confirmed') {
+    subject = 'Appointment Confirmed';
+    html = `
+      <h2>Hello ${patientName}</h2>
+      <p>Your appointment with Dr. ${doctorName} has been confirmed.</p>
+      <p><strong>Date:</strong> ${formattedDate}</p>
+      <p><strong>Time:</strong> ${appointmentTime}</p>
+      <p>Please arrive 15 minutes before your scheduled time.</p>
+      <p>If you need to reschedule, please contact us or cancel from your patient portal.</p>
+    `;
+  } else if (status === 'rejected') {
+    subject = 'Appointment Rejected';
+    html = `
+      <h2>Hello ${patientName}</h2>
+      <p>We regret to inform you that your appointment with Dr. ${doctorName} has been rejected.</p>
+      <p><strong>Original Date:</strong> ${formattedDate}</p>
+      <p><strong>Time:</strong> ${appointmentTime}</p>
+      ${rejectionReason ? `<p><strong>Reason:</strong> ${rejectionReason}</p>` : ''}
+      <p>Please book a new appointment with a different time slot or doctor through your patient portal.</p>
+    `;
+  } else if (status === 'proposed') {
+    subject = 'Appointment Reschedule Proposal';
+    html = `
+      <h2>Hello ${patientName}</h2>
+      <p>Dr. ${doctorName} has suggested an alternative time for your appointment.</p>
+      <p><strong>New Suggested Date:</strong> ${formattedDate}</p>
+      <p><strong>New Suggested Time:</strong> ${appointmentTime}</p>
+      ${rejectionReason ? `<p><strong>Reason for Change:</strong> ${rejectionReason}</p>` : ''}
+      <p>Please log in to your patient portal to accept or reject this new time.</p>
+    `;
+  }
+
+  await sendEmail({
+    to,
+    subject,
+    html
+  });
+};

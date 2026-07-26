@@ -50,6 +50,11 @@ const routes: Routes = [
   {
     path: 'reset-password/:token',
     component: ResetPasswordComponent
+  },
+
+  {
+    path: 'reset-password/:token',
+    component: ResetPasswordComponent
   }
 
 ];

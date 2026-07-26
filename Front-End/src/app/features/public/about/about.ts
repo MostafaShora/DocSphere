@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
@@ -10,16 +11,30 @@ interface StaffMember {
   image: string;
   type: 'doctor' | 'admin';
 }
+=======
+import { ApiService } from '../../../core/services/api.service';
+import { TranslateModule } from '@ngx-translate/core';
+
+declare var Swiper: any;
+>>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './about.html',
   styleUrls: ['./about.css']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, AfterViewInit {
+  doctors: any[] = [];
+  admins: any[] = [];
+  reviews: any[] = [];
+  isLoading = false;
+  isLoadingReviews = false;
+  error: string | null = null;
+  bgImage = 'assets/images/about-bg.png';
 
+<<<<<<< HEAD
   staff: StaffMember[] = [];
   filteredStaff: StaffMember[] = [];
 
@@ -132,11 +147,29 @@ export class AboutComponent implements OnInit {
       this.filteredStaff = this.staff;
     } else {
       this.filteredStaff = this.staff.filter(p => p.type === type);
+=======
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.loadData();
+    this.loadReviews();
+  }
+
+  ngAfterViewInit(): void {
+    if (typeof (window as any).AOS !== 'undefined') {
+      (window as any).AOS.init({
+        duration: 1000,
+        once: true
+      });
+>>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
     }
   }
 
-  // ================= Testimonials =================
+  loadData(): void {
+    this.isLoading = true;
+    this.error = null;
 
+<<<<<<< HEAD
   loadTestimonials(): void {
     const stored = localStorage.getItem(this.testimonialsStorageKey);
     if (stored) {
@@ -193,3 +226,67 @@ export class AboutComponent implements OnInit {
   }
 
 }
+=======
+    this.apiService.getDoctors().subscribe({
+      next: res => {
+        this.doctors = res || [];
+      },
+      error: err => {
+        console.error('Error loading doctors', err);
+        this.error = 'Failed to load doctors';
+      }
+    });
+
+    this.apiService.getAdmins().subscribe({
+      next: res => {
+        this.admins = res || [];
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error('Error loading admins', err);
+        this.error = this.error || 'Failed to load admins';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  loadReviews(): void {
+    this.isLoadingReviews = true;
+    this.apiService.getReviews().subscribe({
+      next: (res: any) => {
+        this.reviews = res.data || res || [];
+        this.isLoadingReviews = false;
+        setTimeout(() => this.initSwiper(), 100);
+      },
+      error: (err) => {
+        console.error('Error loading reviews', err);
+        this.isLoadingReviews = false;
+      }
+    });
+  }
+
+  initSwiper(): void {
+    if (typeof Swiper !== 'undefined') {
+      const needsLoop = this.reviews.length >= 3;
+      
+      new Swiper('.about-reviews-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: needsLoop,
+        autoplay: needsLoop ? {
+          delay: 5000,
+          disableOnInteraction: false,
+        } : false,
+        navigation: {
+          nextEl: '.swiper-button-next-custom',
+          prevEl: '.swiper-button-prev-custom',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      });
+    }
+  }
+}
+>>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2

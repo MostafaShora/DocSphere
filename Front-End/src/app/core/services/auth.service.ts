@@ -8,6 +8,8 @@ interface AuthUser {
   role: string;
   email: string;
   name: string;
+  nameAr?: string;
+  nameEn?: string;
 }
 
 interface PendingProfileDraft {
@@ -18,8 +20,10 @@ interface PendingProfileDraft {
     phone: string;
     dateOfBirth?: string | null;
   };
-  doctorProfile?: {
+    doctorProfile?: {
     fullName: string;
+    fullNameAr?: string;
+    fullNameEn?: string;
     specialty: string;
     bio?: string;
     experience?: number;
@@ -34,6 +38,7 @@ interface PendingProfileDraft {
       country?: string;
     };
     profilePicture?: string;
+    certificate?: string;
   };
 }
 
@@ -58,9 +63,11 @@ export class AuthService {
       this.http.post(`${this.baseUrl}/auth/login`, { email, password })
     );
 
-    const token = response.accessToken || response.token;
+    // Backend returns 'token', frontend was looking for 'accessToken'
+    const token = response.token || response.accessToken || response;
 
-    if (!token) {
+    if (!token || typeof token !== 'string') {
+      console.error('Invalid login response:', response);
       return null;
     }
 
@@ -91,12 +98,16 @@ export class AuthService {
     password: string,
     phone: string,
     role: string,
-    birthDate: string
+    birthDate: string,
+    nameAr: string = '',
+    nameEn: string = ''
   ) {
     try {
       return await firstValueFrom(
         this.http.post(`${this.baseUrl}/auth/register`, {
           name,
+          nameAr,
+          nameEn,
           email,
           password,
           phonePrimary: phone,
@@ -120,6 +131,30 @@ export class AuthService {
     return await firstValueFrom(
       this.http.post(`${this.baseUrl}/auth/reset-password/${token}`, {
         password: newPassword
+<<<<<<< HEAD
+=======
+      })
+    );
+  }
+
+  async verifyResetToken(token: string): Promise<{ valid: boolean; message?: string } | null> {
+    try {
+      return await firstValueFrom(
+        this.http.get<{ valid: boolean; message?: string }>(
+          `${this.baseUrl}/auth/verify-reset-token/${token}`
+        )
+      );
+    } catch {
+      return null;
+    }
+  }
+
+  async updatePassword(currentPassword: string, newPassword: string) {
+    return await firstValueFrom(
+      this.http.put(`${this.baseUrl}/auth/update-password`, {
+        currentPassword,
+        newPassword
+>>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
       })
     );
   }

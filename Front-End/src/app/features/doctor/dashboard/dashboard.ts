@@ -1,43 +1,123 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { DoctorService } from '../../../core/services/doctor.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
+import { ApiService } from '../../../core/services/api.service';
+
+const passwordMatchValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  const newPassword = control.get('newPassword')?.value;
+  const confirmPassword = control.get('confirmPassword')?.value;
+
+  if (!newPassword || !confirmPassword) {
+    return null;
+  }
+
+  return newPassword === confirmPassword ? null : { passwordMismatch: true };
+};
+
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-doctor-dashboard',
   templateUrl: './dashboard.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, TranslateModule],
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent implements OnInit {
-  activeSection: 'overview' | 'appointments' | 'profile' = 'overview';
+  private readonly passwordPattern = /^.{6,}$/;
+
+  activeSection: 'overview' | 'appointments' | 'schedule' | 'profile' | 'security' = 'overview';
 
   currentUser: any = null;
   doctor: any = null;
   appointments: any[] = [];
+  schedules: any[] = [];
   loading = false;
+  scheduleLoading = false;
+  scheduleSaving = false;
+  scheduleError = '';
+  scheduleSuccess = '';
+  passwordLoading = false;
+  passwordError = '';
+  passwordSuccess = '';
+  
+  // Reject modal
+  showRejectModal = false;
+  selectedAppointment: any = null;
+  rejectReason = '';
+  
+  // Reschedule proposal fields
+  isRescheduling = false;
+  proposedDate = '';
+  proposedStartTime = '';
+  proposedEndTime = '';
+
+  readonly scheduleForm;
+  readonly passwordForm;
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private doctorService: DoctorService,
     private appointmentService: AppointmentService,
-    private router: Router
-  ) {}
+    private apiService: ApiService,
+    private router: Router,
+    private translate: TranslateService
+  ) {
+    this.scheduleForm = this.fb.group({
+      date: ['', [Validators.required]],
+      timeSlots: this.fb.array([
+        this.createTimeSlotGroup(),
+        this.createTimeSlotGroup()
+      ])
+    });
+
+    this.passwordForm = this.fb.group(
+      {
+        currentPassword: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.minLength(6), Validators.pattern(this.passwordPattern)]],
+        confirmPassword: ['', [Validators.required]]
+      },
+      { validators: passwordMatchValidator }
+    );
+  }
 
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser();
     this.loadDoctorDashboard();
   }
 
-  setSection(section: 'overview' | 'appointments' | 'profile') {
-    if (!this.isApproved && section !== 'profile' && section !== 'overview') {
+  setSection(section: 'overview' | 'appointments' | 'schedule' | 'profile' | 'security') {
+    if (!this.isApproved && section !== 'profile' && section !== 'overview' && section !== 'security') {
       return;
     }
 
     this.activeSection = section;
+  }
+
+  get todayDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
+  get timeSlots(): FormArray {
+    return this.scheduleForm.get('timeSlots') as FormArray;
   }
 
   get myAppointments(): any[] {
@@ -60,16 +140,17 @@ export class DashboardComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
   }
-
+  
   private loadDoctorDashboard() {
     this.loading = true;
 
-    this.doctorService.getAllDoctors().subscribe({
+    this.apiService.getDoctors(true).subscribe({
       next: doctors => {
         this.doctor = doctors.find(doctor => doctor.userId === this.currentUser?.id) || null;
 
         if (this.doctor?.isApproved && this.doctor?.isActive !== false) {
           this.loadAppointments();
+          this.loadSchedules();
         } else {
           this.loading = false;
         }
@@ -88,15 +169,267 @@ export class DashboardComponent implements OnInit {
           patientName: appointment.patient?.firstName
             ? `${appointment.patient.firstName} ${appointment.patient.lastName || ''}`.trim()
             : 'Patient',
+          patientEmail: appointment.patient?.user?.email || '',
           status: appointment.status || 'pending',
           createdAt: appointment.createdAt,
-          appointmentDate: appointment.date || appointment.appointmentDate || null
+          appointmentDate: appointment.date || appointment.appointmentDate || null,
+          startTime: appointment.startTime || '',
+          endTime: appointment.endTime || '',
+          reason: appointment.reason || ''
         }));
         this.loading = false;
       },
       error: () => {
         this.loading = false;
       }
+    });
+  }
+
+  // Confirm appointment
+  confirmAppointment(appointmentId: string) {
+    this.appointmentService.updateAppointmentStatus(appointmentId, 'confirmed').subscribe({
+      next: () => {
+        this.loadAppointments();
+      },
+      error: error => {
+        console.error('Failed to confirm appointment:', error);
+      }
+    });
+  }
+
+  // Reject appointment
+  rejectAppointment(appointmentId: string, reason: string) {
+    this.appointmentService.updateAppointment(appointmentId, {
+      status: 'rejected',
+      rejectionReason: reason
+    }).subscribe({
+      next: () => {
+        this.loadAppointments();
+      },
+      error: error => {
+        console.error('Failed to reject appointment:', error);
+      }
+    });
+  }
+
+  private loadSchedules() {
+    if (!this.doctor?.id) {
+      return;
+    }
+
+    this.scheduleLoading = true;
+
+    this.apiService.getSchedules().subscribe({
+      next: schedules => {
+        this.schedules = schedules
+          .filter(schedule => {
+            const scheduleDoctorId =
+              schedule.doctor?._id ||
+              schedule.doctor?.id ||
+              schedule.doctor;
+
+            return scheduleDoctorId === this.doctor.id;
+          })
+          .sort((a, b) => +new Date(a.date) - +new Date(b.date));
+        this.scheduleLoading = false;
+      },
+      error: () => {
+        this.scheduleLoading = false;
+        this.scheduleError = 'Failed to load schedule.';
+      }
+    });
+  }
+
+  addTimeSlot() {
+    this.timeSlots.push(this.createTimeSlotGroup());
+  }
+
+  removeTimeSlot(index: number) {
+    if (this.timeSlots.length === 1) {
+      return;
+    }
+
+    this.timeSlots.removeAt(index);
+  }
+
+  saveSchedule() {
+    if (!this.doctor?.id) {
+      this.scheduleError = 'Doctor profile is not ready yet.';
+      return;
+    }
+
+    if (this.scheduleForm.invalid) {
+      this.scheduleForm.markAllAsTouched();
+      this.scheduleError = 'Please complete the schedule form first.';
+      this.scheduleSuccess = '';
+      return;
+    }
+
+    const selectedDate = this.scheduleForm.get('date')?.value;
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+
+    if (!selectedDate || selectedDate < todayStr) {
+      this.scheduleError = this.translate.instant('ERRORS.PAST_DATE_ERROR');
+      return;
+    }
+
+    const normalizedSlots = this.timeSlots.getRawValue()
+      .map((slot: any) => ({
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+        isAvailable: true
+      }))
+      .filter((slot: any) => slot.startTime && slot.endTime)
+      .sort((a: any, b: any) => a.startTime.localeCompare(b.startTime));
+
+    // If date is today, check if start times are in the future
+    if (selectedDate === todayStr) {
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const hasPastTime = normalizedSlots.some((slot: any) => {
+        const [hours, minutes] = slot.startTime.split(':').map(Number);
+        return (hours * 60 + minutes) < currentMinutes;
+      });
+
+      if (hasPastTime) {
+        this.scheduleError = this.translate.instant('ERRORS.PAST_TIME_ERROR');
+        return;
+      }
+    }
+
+    this.scheduleSaving = true;
+    this.scheduleError = '';
+    this.scheduleSuccess = '';
+
+    this.apiService.createSchedule({
+      doctor: this.doctor.id,
+      date: `${this.scheduleForm.get('date')?.value || ''}`,
+      timeSlots: normalizedSlots
+    }).subscribe({
+      next: () => {
+        this.scheduleSaving = false;
+        this.scheduleSuccess = 'Schedule saved successfully.';
+        this.scheduleForm.reset();
+        this.timeSlots.clear();
+        this.addTimeSlot();
+        this.addTimeSlot();
+        this.loadSchedules();
+      },
+      error: error => {
+        this.scheduleSaving = false;
+        this.scheduleError = error?.error?.message || 'Failed to save schedule.';
+      }
+    });
+  }
+
+  deleteSchedule(scheduleId: string) {
+    this.scheduleError = '';
+    this.scheduleSuccess = '';
+
+    this.apiService.deleteSchedule(scheduleId).subscribe({
+      next: () => {
+        this.scheduleSuccess = 'Schedule removed successfully.';
+        this.loadSchedules();
+      },
+      error: error => {
+        this.scheduleError = error?.error?.message || 'Failed to remove schedule.';
+      }
+    });
+  }
+
+  async updatePassword() {
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      this.passwordError = 'Please review the password fields.';
+      this.passwordSuccess = '';
+      return;
+    }
+
+    const { currentPassword, newPassword } = this.passwordForm.getRawValue();
+
+    this.passwordLoading = true;
+    this.passwordError = '';
+    this.passwordSuccess = '';
+
+    try {
+      await this.authService.updatePassword(currentPassword!, newPassword!);
+      this.passwordSuccess = 'Password updated successfully.';
+      this.passwordForm.reset();
+    } catch (error: any) {
+      this.passwordError = error?.error?.message || 'Failed to update password.';
+    } finally {
+      this.passwordLoading = false;
+    }
+  }
+
+  formatScheduleDate(date: string): string {
+    return new Date(date).toLocaleDateString([], {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  trackByIndex(index: number): number {
+    return index;
+  }
+
+  // Show reject dialog
+  showRejectDialog(appointment: any) {
+    this.selectedAppointment = appointment;
+    this.rejectReason = '';
+    this.showRejectModal = true;
+  }
+
+  // Close reject dialog
+  closeRejectDialog() {
+    this.showRejectModal = false;
+    this.selectedAppointment = null;
+    this.rejectReason = '';
+    this.isRescheduling = false;
+    this.proposedDate = '';
+    this.proposedStartTime = '';
+    this.proposedEndTime = '';
+  }
+
+  // Submit rejection
+  submitReject() {
+    if (!this.selectedAppointment || !this.rejectReason.trim()) {
+      return;
+    }
+
+    const updateData: any = {
+      status: 'rejected',
+      rejectionReason: this.rejectReason.trim()
+    };
+
+    if (this.isRescheduling) {
+      if (!this.proposedDate || !this.proposedStartTime || !this.proposedEndTime) {
+        alert('Please fill all rescheduling fields.');
+        return;
+      }
+      updateData.proposedDate = this.proposedDate;
+      updateData.proposedStartTime = this.proposedStartTime;
+      updateData.proposedEndTime = this.proposedEndTime;
+      updateData.proposedReason = this.rejectReason.trim();
+    }
+
+    this.appointmentService.updateAppointment(this.selectedAppointment.id, updateData).subscribe({
+      next: () => {
+        this.loadAppointments();
+        this.closeRejectDialog();
+      },
+      error: error => {
+        console.error('Failed to update appointment:', error);
+      }
+    });
+  }
+
+  private createTimeSlotGroup() {
+    return this.fb.group({
+      startTime: ['', [Validators.required]],
+      endTime: ['', [Validators.required]]
     });
   }
 }
