@@ -22,9 +22,6 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
   styleUrl: './app.css'
 })
 export class App {
-<<<<<<< HEAD
-  protected readonly title = signal('docsphere');
-=======
   protected readonly title = signal('DocSphere');
 
   constructor(
@@ -42,5 +39,4 @@ export class App {
     document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = savedLang;
   }
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
 }

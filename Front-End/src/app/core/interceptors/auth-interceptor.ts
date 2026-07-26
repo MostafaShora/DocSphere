@@ -30,14 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         if (error.status === 401 && !isAuthRequest) {
           localStorage.removeItem('authToken');
           localStorage.removeItem('currentUser');
-<<<<<<< HEAD
-          router.navigate(['/auth/login']);
-          errorHandler.handleHttpError(error);
-        } else if (error.status !== 401 || !isAuthRequest) {
-          errorHandler.handleHttpError(error);
-=======
           router.navigate(['/login']);
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
         }
 
         // 🧾 Logging فقط (بدون GlobalErrorHandler)

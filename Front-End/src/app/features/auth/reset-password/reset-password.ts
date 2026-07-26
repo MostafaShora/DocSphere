@@ -64,9 +64,6 @@ export class ResetPasswordComponent implements OnInit {
       { validators: resetPasswordMatchValidator }
     );
 
-<<<<<<< HEAD
-    this.token = this.route.snapshot.paramMap.get('token') || '';
-=======
     // Default: disable until token is verified
     this.resetPasswordForm.disable();
 
@@ -107,7 +104,6 @@ export class ResetPasswordComponent implements OnInit {
     } finally {
       this.verifying = false;
     }
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
   }
 
   async resetPassword() {
@@ -140,7 +136,7 @@ export class ResetPasswordComponent implements OnInit {
       this.successMsg = 'Password updated successfully.';
 
       setTimeout(() => {
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
       }, 1500);
     } catch (error: any) {
       this.errorMsg = error?.error?.message || 'Error resetting password.';

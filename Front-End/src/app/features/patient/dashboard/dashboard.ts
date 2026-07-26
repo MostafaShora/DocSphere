@@ -168,13 +168,13 @@ export class DashboardComponent implements OnInit {
   private loadUser(): void {
     const data = localStorage.getItem('currentUser');
     if (!data) {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/login']);
       return;
     }
 
     const u = JSON.parse(data) as User;
     if (u.role !== 'patient') {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/login']);
       return;
     }
 

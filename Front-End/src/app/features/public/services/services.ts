@@ -93,9 +93,6 @@ export class ServicesComponent implements OnInit {
     const rawUser = localStorage.getItem('currentUser');
 
     if (!rawUser) {
-<<<<<<< HEAD
-      this.router.navigate(['/auth/login']);
-=======
       Swal.fire({
         title: this.translate.instant('SERVICES.BOOKING_ERROR_TITLE'),
         text: this.translate.instant('SERVICES.LOGIN_REQUIRED_MSG'),
@@ -104,7 +101,6 @@ export class ServicesComponent implements OnInit {
         confirmButtonColor: '#145245'
       });
       this.router.navigate(['/login']);
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
       return;
     }
 

@@ -359,43 +359,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-<<<<<<< HEAD
-}
-
-.feature-grid {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-
-.feature-card {
-  min-height: 220px;
-}
-
-.contact-card p {
-  margin: 10px 0;
-  color: #333;
-}
-
-.contact-number {
-  margin: 18px 0 0;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: var(--teal);
-}
-
-.info-note {
-  background: var(--light-pink);
-  color: var(--teal);
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.info-note.error {
-  background: #ffe8e3;
-  color: #b63a20;
-}
-=======
   transition: all 0.4s ease;
   z-index: 10;
 }
@@ -551,4 +514,3 @@
     right: 0;
   }
 }
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2

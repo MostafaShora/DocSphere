@@ -138,13 +138,9 @@ exports.forgotPassword = async (req, res, next) => {
     user.resetPasswordExpire = Date.now() + 60 * 60 * 1000; // 1 hour
     await user.save();
 
-<<<<<<< HEAD
-    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-=======
     // Use frontend URL from environment or default to Angular dev server
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
     const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
     await sendResetPasswordEmail(user.email, user.name, resetUrl);
 
     res.status(200).json({ message: res.__('RESET_LINK_SENT') });

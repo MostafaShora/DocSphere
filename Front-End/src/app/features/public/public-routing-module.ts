@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home';
 import { DoctorsComponent } from './doctors/doctors';
 import { ServicesComponent } from './services/services';
 import { ContactComponent } from './contact/contact';
+import { LoginComponent } from '../auth/login/login';
 import { AboutComponent } from './about/about';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from '../auth/verify-email/verify-email.component';
@@ -38,6 +39,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'login',
+    component: LoginComponent
+  },
+
+  {
     path: 'forgot-password',
     component: ForgotPasswordComponent
   },
@@ -48,7 +54,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'reset-password/:token',
+    path: 'reset-password',
     component: ResetPasswordComponent
   },
 

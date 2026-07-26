@@ -131,8 +131,6 @@ export class AuthService {
     return await firstValueFrom(
       this.http.post(`${this.baseUrl}/auth/reset-password/${token}`, {
         password: newPassword
-<<<<<<< HEAD
-=======
       })
     );
   }
@@ -154,7 +152,6 @@ export class AuthService {
       this.http.put(`${this.baseUrl}/auth/update-password`, {
         currentPassword,
         newPassword
->>>>>>> 100a8bf2e0d97ded9e42daa3a9a3e258eb2938e2
       })
     );
   }
