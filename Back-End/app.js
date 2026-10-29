@@ -26,6 +26,8 @@ dns.setServers(['1.1.1.1', '8.8.8.8']);
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 // i18n configuration
 i18n.configure({
   locales: ['en', 'ar'],
