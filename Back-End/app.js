@@ -21,6 +21,9 @@ const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 const i18n = require('i18n');
 const path = require('path');
 
+const dns = require('node:dns');
+dns.setServers(['1.1.1.1', '8.8.8.8']);
+
 const app = express();
 
 // i18n configuration
